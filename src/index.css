@@ -1,0 +1,94 @@
+:root {
+  /* Palette: forest #152b12, olive #4b5224, gold #f3db91, rose #ae7465. Rose is 3.96:1 on bg, so never body text. */
+  --bg: #152b12; --card: #1f3215; --border: #4b5224; --text: #f7f2e4; --muted: #b3a768;
+  --accent: #f3db91; --accent-dark: #ae7465; --accent-soft: #2d3d1a;
+  color-scheme: dark;
+  /* Built for low-vision readers by the Braille Institute; bundled so it works offline. */
+  font-family: 'Atkinson Hyperlegible', system-ui, sans-serif;
+  line-height: 1.5;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); }
+a, button, summary, .sort, nav a, .finding, .close { transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+/* Dashboard shell: fixed sidebar + top bar + one rounded content panel. Collapses to a top nav row under 900px. */
+.shell { display: grid; grid-template-columns: 248px 1fr; min-height: 100vh; }
+.sidebar { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; gap: 20px; padding: 24px 16px;
+  border-right: 1px solid var(--border); }
+.brand { margin: 0 8px; font-weight: 700; font-size: 1.15rem; color: var(--accent); }
+.small { font-size: 0.85rem; margin: auto 8px 0; }
+.content { min-width: 0; padding: 24px 28px 40px; }
+.topbar { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+.panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
+.panel > h2:first-child, .panel > p:first-child { margin-top: 0; }
+h1 { margin: 0; font-size: 1.6rem; }
+h2 { font-size: 1.1rem; margin: 28px 0 8px; }
+.muted { color: var(--muted); margin: 4px 0; }
+.error { color: #fca5a5; }
+nav { display: flex; flex-direction: column; gap: 4px; }
+nav a { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 10px 12px; border-radius: 8px; border-left: 3px solid transparent;
+  color: var(--muted); text-decoration: none; white-space: nowrap; }
+nav a svg { flex: none; }
+nav a:hover { color: var(--text); background: var(--accent-soft); }
+nav a[aria-current="page"] { color: var(--accent); background: var(--accent-soft); border-left-color: var(--accent); }
+@media (max-width: 900px) {
+  .shell { display: block; }
+  .sidebar { position: static; height: auto; padding: 16px 16px 0; gap: 12px; border-right: 0; }
+  .sidebar .small { display: none; }
+  /* One scrollable row on phones instead of five stacked rows. */
+  nav { flex-direction: row; overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid var(--border); }
+  nav::-webkit-scrollbar { display: none; }
+  nav a { flex: none; border-left: 0; border-bottom: 2px solid transparent; border-radius: 0; }
+  nav a[aria-current="page"] { border-bottom-color: var(--accent); }
+  .content { padding: 16px; }
+  .panel { padding: 16px; }
+}
+/* 3px rings: thin outlines vanish on projectors and for low-vision users. */
+a:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.kpi { background: var(--accent-soft); border: 1px solid var(--border); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 2px; }
+.kpi strong { font-size: 1.8rem; color: var(--accent); }
+.headline { font-size: 1.25rem; margin: 4px 0 8px; }
+.headline strong { color: var(--accent); }
+.method { color: var(--muted); margin: 8px 0; font-size: 0.95rem; }
+.method summary { cursor: pointer; color: var(--accent); min-height: 44px; display: flex; align-items: center; }
+a { color: var(--accent); }
+.btn { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--accent); color: var(--accent); text-decoration: none; font-weight: 600; justify-self: start; }
+.btn:hover { background: var(--accent); color: var(--bg); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.hero { display: flex; align-items: center; gap: 20px; padding: 20px; margin-bottom: 16px; background: var(--accent-soft); border: 1px solid var(--border); border-radius: 12px; }
+.hero h2 { margin: 0 0 4px; font-size: 1.8rem; }
+.hero p { margin: 0; }
+.nearest { list-style: none; padding: 0; margin: 8px 0 16px; display: grid; gap: 8px; }
+.nearest li { display: grid; gap: 2px; padding: 12px 14px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; }
+.brand a { color: inherit; text-decoration: none; }
+.landing-hero { padding: 32px 4px 24px; }
+.landing-hero h1 { margin: 0 0 12px; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; color: var(--accent); }
+.lede { max-width: 60ch; margin: 0 0 20px; font-size: 1.1rem; }
+.landing-search input:disabled { opacity: 0.6; }
+.landing-search > input { width: 100%; max-width: 560px; min-height: 56px; box-sizing: border-box; background: var(--card); border: 1px solid var(--border); color: var(--text); border-radius: 999px; padding: 12px 22px; font: inherit; font-size: 1.1rem; }
+.act { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin: 24px 0 0; padding: 14px 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--accent-soft); }
+.act p { margin: 0; }
+.small-note { font-size: 0.85rem; }
+.hero { position: relative; }
+.hero > div { flex: 1; min-width: 0; }
+/* Last line in Pulse: drop the box around the page so the cards inside read as the content. */
+.panel { background: none; border: 0; padding: 0; }
+
+/* Pulse Rent additions */
+.landing-search { display: flex; flex-wrap: wrap; gap: 10px; max-width: 720px; }
+.landing-search > input { flex: 1 1 280px; }
+.go-btn { min-height: 56px; padding: 12px 24px; border: 0; border-radius: 999px; background: var(--accent); color: var(--bg); font: inherit; font-size: 1.05rem; font-weight: 700; cursor: pointer; }
+.go-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+/* Verdict colors: gold for no flags, rose for caution, and a red edge for serious. */
+.verdict { border-left: 6px solid var(--accent); }
+.verdict.warn { border-left-color: var(--accent-dark); }
+.verdict.bad { border-left-color: #e05a47; background: #3a2418; }
+.verdict .headline { font-size: 1.2rem; margin-top: 8px; }
+.kpi strong.date { font-size: 1.25rem; }
+h2 { display: flex; align-items: center; gap: 8px; }
+.nearest .comment { font-size: 0.9rem; overflow-wrap: anywhere; }
+.method ul { padding-left: 20px; }
+.method li { margin: 6px 0; }
+.btn { gap: 6px; }
+.kpis { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
